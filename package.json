@@ -1,0 +1,35 @@
+{
+  "name": "glowup-hutao",
+  "version": "1.0.0",
+  "description": "Solução para a transferência de arquivos da Hutao V9 e V10",
+  "keywords": [
+    "glowup",
+    "hutao",
+    "dev"
+  ],
+  "homepage": "https://github.com/Lm-Only/glowup-hutao#readme",
+  "bugs": {
+    "url": "https://github.com/Lm-Only/glowup-hutao/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lm-Only/glowup-hutao.git"
+  },
+  "license": "ISC",
+  "author": "Lm Only",
+  "type": "module",
+  "main": "dist/glowup.js",
+  "scripts": {
+    "dev": "tsx watch src/glowup.ts",
+    "check": "tsc --noEmit",
+    "build": "esbuild src/glowup.ts --bundle --platform=node --format=esm --target=node26 --minify --packages=external --outfile=dist/glowup.js",
+    "start": "node dist/glowup.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  }
+}
