@@ -1,3 +1,5 @@
+// apenas se usar TSC - suporte da versões mais recente do node
+
 {
   "include": [
     "src/**/*"
@@ -15,13 +17,10 @@
     "types": [
       "node"
     ],
-    // Delega a emissão de arquivos para o esbuild
     "noEmit": true,
-    // Checagem estrita
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-    // Compatibilidade e isolamento de módulos
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
