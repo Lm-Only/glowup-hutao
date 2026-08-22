@@ -1,8 +1,35 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import { CACHE_PATH, CACHE_LOG_FILE, LOG_FILE_TYPE } from "../config-global";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { 
+    CACHE_PATH, 
+    CACHE_LOG_FILE, 
+    LOG_FILE_TYPE, 
+    CHECK_HUTAO_INFO, 
+    CACHE_PATH_NAME, 
+    LOG_FILE 
+} from "./config-global";
 import { error_c } from "./logger";
 import { MAP_FILES } from "./map-files";
 import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+interface ObjPkgJson {
+    updates?: number;
+    main?: string;
+
+}
+
+type LogFileInfo = {
+    replaced?: boolean;
+}
+
+type LogFile = Record<string, LogFileInfo>;
+
+const cwd: string = process.cwd();
+let logfile: LogFile | null = null;
+
+function checkPackageJson(obj: ObjPkgJson): boolean {
+    return Boolean(obj.updates && obj.updates > 0 && obj.main === 'main.js');
+} 
 
 /**
  *  Essa func é responsavel por criar a pasta de backup
@@ -20,11 +47,21 @@ export async function createCacheFolder(): Promise<void> {
     }
 }
 
-export async function replaceFiles() {
+export async function replaceDefaultFiles() {
     try {
-        const keys = Object.keys(MAP_FILES) as Array<keyof typeof MAP_FILES>
-        for (const key of keys) {
-            console.log(key);
+        for (const inst of MAP_FILES) {
+
+            const fileContent = await readFile(join(cwd, inst.path), 'utf-8');
+            
+            await writeFile(join(cwd, inst.to), fileContent);
+
+            //    aqui    cuidado
+            //    confia que isso já existe
+            logfile![inst.path] = logfile?.[inst.path] || {};
+            logfile![inst.path]!.replaced = true;
+
+            await writeFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), JSON.stringify(logfile, null, 2));
+
         }
     } catch (error) {
         console.error(error);
@@ -39,5 +76,28 @@ export async function createLogFile(): Promise<void> {
         await writeFile(CACHE_LOG_FILE, LOG_FILE_TYPE);
     } catch (error) {
         error_c('Não consegui criar o arquivo que monitora os logs, o processo não pode continuar');
+    }
+}
+
+export async function loadLogFile(): Promise<void> {
+    const logFileContent = await readFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), 'utf-8');
+    console.log(logFileContent);
+    
+    logfile = JSON.parse(logFileContent) as LogFile;
+}
+
+export async function verification(): Promise<void> {
+    const packageJson: string = 'package.json';
+
+    try {
+        const content = await readFile(join(cwd, packageJson), "utf-8");
+        const json = JSON.parse(content) as ObjPkgJson;
+        const isHutao: boolean = checkPackageJson(json);
+
+        if (!isHutao && CHECK_HUTAO_INFO) {
+            error_c("O arquivo não é o da Hutao, para sua segurança, o codigo será finalizado");
+        }
+    } catch (error) {
+        error_c("why?");
     }
 }

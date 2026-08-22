@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "tsx watch src/glowup.ts",
     "check": "tsc --noEmit",
-    "build": "esbuild src/glowup.ts --bundle --platform=node --format=esm --target=node26 --minify --packages=external --outfile=dist/glowup.js",
+    "build": "esbuild src/glowup.ts --bundle --platform=node --format=esm --target=ESNext --packages=external --outfile=dist/glowup.js",
     "start": "node dist/glowup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

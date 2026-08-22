@@ -1,15 +1,17 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { createCacheFolder, createLogFile, replaceFiles } from './handler';
+import { createCacheFolder, createLogFile, loadLogFile, replaceDefaultFiles, verification } from './handler';
 
 async function main(): Promise<void> {
     try {
         await createCacheFolder();
         await createLogFile();
-        await replaceFiles();
+        await loadLogFile();
+        await replaceDefaultFiles();
     } catch (error) {
         console.error(error);
     }
 }
 
-main();
+await verification();
+await main();

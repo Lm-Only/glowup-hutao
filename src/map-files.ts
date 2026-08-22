@@ -1,6 +1,11 @@
-export const MAP_FILES = {
-    "example1": "example2"
-} as const;
+type MapFiles = {
+    path: string;
+    to: string
+}
 
-export type MapKey = keyof typeof MAP_FILES;
-export type MapPath = (typeof MAP_FILES)[MapKey];
+export const MAP_FILES: Array<MapFiles> = [
+    {
+        path: '/test/example1',
+        to: '/test/example2'
+    }
+];
