@@ -1,5 +1,5 @@
 // src/handler.ts
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 
 // src/config-global.ts
 var CACHE_PATH_NAME = ".cache-hutao";
@@ -14,6 +14,9 @@ import { exit } from "node:process";
 function error_c(text) {
   console.error("[ ERROR_C ] - ", text || "Erro cr\xEDtico, processo finalizado");
   exit(1);
+}
+function logger(text) {
+  console.log("[ LOG ] - ", text);
 }
 
 // src/map-files.ts
@@ -44,11 +47,16 @@ async function createCacheFolder() {
 async function replaceDefaultFiles() {
   try {
     for (const inst of MAP_FILES) {
+      if (logfile?.[inst.path]?.replaced) {
+        logger("Arquivo ja foi registrado, pulando pro proximo");
+        continue;
+      }
       const fileContent = await readFile(join(cwd, inst.path), "utf-8");
       await writeFile(join(cwd, inst.to), fileContent);
       logfile[inst.path] = logfile?.[inst.path] || {};
       logfile[inst.path].replaced = true;
       await writeFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), JSON.stringify(logfile, null, 2));
+      logger("File " + inst.path + " replaced to: " + inst.to + " with success");
     }
   } catch (error) {
     console.error(error);
@@ -80,9 +88,22 @@ async function verification() {
     error_c("why?");
   }
 }
+async function resetProcess() {
+  await rm(join(cwd, CACHE_PATH_NAME), {
+    recursive: true,
+    force: true
+  });
+  logger("Processo reiniciado, digite npm start agora");
+}
 
 // src/glowup.ts
-async function main() {
+var isReset = process.argv.includes("reset");
+if (isReset) {
+  await resetProcess();
+  process.exit(0);
+}
+await verification();
+(async function main() {
   try {
     await createCacheFolder();
     await createLogFile();
@@ -91,6 +112,4 @@ async function main() {
   } catch (error) {
     console.error(error);
   }
-}
-await verification();
-await main();
+})();

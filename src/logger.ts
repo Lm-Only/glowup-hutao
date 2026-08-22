@@ -10,3 +10,7 @@ export function error_c(text: string | null): void {
     console.error('[ ERROR_C ] - ', text || "Erro crítico, processo finalizado");
     exit(1);
 }
+
+export function logger(text: string): void {
+    console.log('[ LOG ] - ', text);
+};
