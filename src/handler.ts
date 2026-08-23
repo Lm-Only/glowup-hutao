@@ -10,7 +10,7 @@ import {
     GITHUB_RAW_URL
 } from "./config-global";
 import { error, error_c, logger } from "./logger";
-import { MAP_FILES } from "./map-files";
+import { MAP_FILES, arrayMapFilesRepo } from "./map-files";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import request from "./utils/request";
@@ -137,13 +137,6 @@ export async function resetProcess(): Promise<void> {
     logger('Processo reiniciado, digite npm start agora');
 }
 
-const arrayMapFilesRepo: string[] = [
-    'index.js',
-    'package.json',
-    'package-lock.json',
-    'start.sh'
-];
-
 export async function downloadDefaultFiles(): Promise<void> {
     let withError: boolean = false;
 
@@ -159,7 +152,7 @@ export async function downloadDefaultFiles(): Promise<void> {
             await writeFile(join(cwd, FOLDER_OUT, file), fileContent);
 
             setLogFile(path);
-            await delay(200);
+            await delay(400);
         } catch (err) {
             error(String(err));
             withError = true;

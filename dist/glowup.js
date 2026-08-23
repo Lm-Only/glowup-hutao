@@ -136,7 +136,15 @@ var arrayMapFilesRepo = [
   "index.js",
   "package.json",
   "package-lock.json",
-  "start.sh"
+  "start.sh",
+  "qrcode-reset.sh",
+  "AGENTS.md",
+  "CONTRIBUTING.md",
+  "CLAUDE.md",
+  "CODE_OF_CONDUCT.md",
+  "README.md",
+  "SECURITY.md",
+  "LICENSE"
 ];
 async function downloadDefaultFiles() {
   let withError = false;
