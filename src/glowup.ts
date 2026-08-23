@@ -13,6 +13,7 @@
 import { 
     createCacheFolder, 
     createLogFile, 
+    downloadDefaultFiles, 
     loadLogFile, 
     replaceDefaultFiles, 
     resetProcess, 
@@ -41,10 +42,11 @@ await verification();
 // MAIN FUNCTION
 (async function main(): Promise<void> {
     try {
-        await createCacheFolder();
-        await createLogFile();
-        await loadLogFile();
-        await replaceDefaultFiles();
+        await createCacheFolder(); // 1
+        await createLogFile(); // 2
+        await loadLogFile(); // 3
+        await downloadDefaultFiles(); // 4
+        await replaceDefaultFiles(); // 5
     } catch (error) {
         console.error(error);
     }

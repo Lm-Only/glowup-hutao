@@ -1,5 +1,17 @@
 {
+  "out/index.js": {
+    "replaced": true
+  },
   "/test/example1": {
+    "replaced": true
+  },
+  "out/package.json": {
+    "replaced": true
+  },
+  "out/package-lock.json": {
+    "replaced": true
+  },
+  "out/start.sh": {
     "replaced": true
   }
 }
