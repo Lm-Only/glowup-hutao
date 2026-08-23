@@ -19,7 +19,6 @@ import { delay } from "./utils/generics";
 interface ObjPkgJson {
     updates?: number;
     main?: string;
-
 }
 
 type LogFileInfo = {
@@ -31,10 +30,17 @@ type LogFile = Record<string, LogFileInfo>;
 const cwd: string = process.cwd();
 let logfile: LogFile | null = null;
 
+/**
+ * Checa se o arquivo onde o script foi executado 
+ * - se assemelha ao da HutaoBot V9
+ */
 function checkPackageJson(obj: ObjPkgJson): boolean {
     return Boolean(obj.updates && obj.updates > 0 && obj.main === 'main.js');
 }
 
+/**
+ * Salva mudanças no arquivo de logs
+ */
 async function setLogFile(path: string): Promise<void> {
     //    aqui    cuidado
     //    confia que isso já existe
@@ -55,6 +61,8 @@ export async function createCacheFolder(): Promise<void> {
         await mkdir(CACHE_PATH, {
             recursive: true
         });
+        
+        // por padrão ele já cria no shell
         // await mkdir(join(cwd, FOLDER_OUT), {
         //     recursive: true
         // });
@@ -63,6 +71,13 @@ export async function createCacheFolder(): Promise<void> {
     }
 }
 
+/**
+ * Objetivo de repassar apenas arquivos padrões
+ * - que não tenha tanta serventia
+ * - se o arquivo já foi configurado, ele pulapro proximo
+ * - caso contrário ele lê o conteúdo do arquivo V9 e manda pra V10
+ * - por fim o log é salvo como replaced
+ */
 export async function replaceDefaultFiles(): Promise<void> {
     try {
         for (const inst of MAP_FILES) {
@@ -91,6 +106,9 @@ export async function replaceDefaultFiles(): Promise<void> {
     }
 }
 
+/**
+ * Cria o arquivo de log se não existir
+ */
 export async function createLogFile(): Promise<void> {
     if (existsSync(CACHE_LOG_FILE)) return; // <-- omg k
 
@@ -101,6 +119,10 @@ export async function createLogFile(): Promise<void> {
     }
 }
 
+/**
+ * Carregamento de log por demanda
+ * - Carrega os logs em tempo de execução
+ */
 export async function loadLogFile(): Promise<void> {
     const logFileContent = await readFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), 'utf-8');
     console.log(logFileContent);
@@ -108,6 +130,9 @@ export async function loadLogFile(): Promise<void> {
     logfile = JSON.parse(logFileContent) as LogFile;
 }
 
+/**
+ * Verifica as informações do diretório
+ */
 export async function verification(): Promise<void> {
     const packageJson: string = 'package.json';
 
@@ -124,6 +149,9 @@ export async function verification(): Promise<void> {
     }
 }
 
+/**
+ * Apaga tudo que foi criado
+ */
 export async function resetProcess(): Promise<void> {
     await rm(join(cwd, CACHE_PATH_NAME), {
         recursive: true,
@@ -137,6 +165,9 @@ export async function resetProcess(): Promise<void> {
     logger('Processo reiniciado, digite npm start agora');
 }
 
+/**
+ * Baixa arquivos main
+ */
 export async function downloadDefaultFiles(): Promise<void> {
     let withError: boolean = false;
 
