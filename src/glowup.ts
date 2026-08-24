@@ -14,7 +14,6 @@ import { CACHE_LOG_FILE, CACHE_PATH } from './config-global';
 import { 
     createCacheFolder, 
     createLogFile, 
-    downloadDefaultFiles, 
     loadLogFile, 
     mergeSettings, 
     replaceDefaultFiles, 
@@ -45,17 +44,14 @@ await verification();
 // MAIN FUNCTION
 (async function main(): Promise<void> {
     try {
-        logger('Criando pasta de cache: ' + CACHE_PATH + '\n\n');
+        logger('Criando pasta de cache: ' + CACHE_PATH);
         await createCacheFolder(); // 1
 
-        logger('Criando arquivo de logs: ' + CACHE_LOG_FILE + '\n\n');
+        logger('Criando arquivo de logs: ' + CACHE_LOG_FILE);
         await createLogFile(); // 2
 
-        logger('Carregando arquivo de logs em tempo de execução\n\n');
+        logger('Carregando arquivo de logs em tempo de execução');
         await loadLogFile(); // 3
-
-        logger('Baixando arquivos main do repo\n\n');
-        await downloadDefaultFiles(); // 4
 
         logger('Setando settings.json\n\n')
         await mergeSettings(); // 5

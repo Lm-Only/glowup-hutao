@@ -2,12 +2,11 @@
 var CACHE_PATH_NAME = ".cache-hutao";
 var CACHE_PATH = "./" + CACHE_PATH_NAME;
 var LOG_FILE = "logfile.json";
-var FOLDER_OUT = "HutaoBotV10";
+var FOLDER_OUT = "HutaoBot";
 var CACHE_LOG_FILE = CACHE_PATH + "/" + LOG_FILE;
 var LOG_FILE_TYPE = "{}";
 var CHECK_HUTAO_INFO = false;
-var DEV_MODE = process.argv.includes("dev");
-var GITHUB_RAW_URL = "https://raw.githubusercontent.com/Lm-Only/HutaoBot/refs/heads/main/";
+var DEV_MODE = process.argv.includes("--dev");
 
 // src/handler.ts
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -92,20 +91,6 @@ var MAP_FILES = [
     to: FOLDER_OUT + "/assets/users/take.json"
   }
 ];
-var arrayMapFilesRepo = [
-  "index.js",
-  "package.json",
-  "package-lock.json",
-  "start.sh",
-  "qrcode-reset.sh",
-  "AGENTS.md",
-  "CONTRIBUTING.md",
-  "CLAUDE.md",
-  "CODE_OF_CONDUCT.md",
-  "README.md",
-  "SECURITY.md",
-  "LICENSE"
-];
 var globalFiles = {
   "/dono/settings/settings.json": FOLDER_OUT + "/assets/settings/settings.yaml",
   "/donos/settings/necessary.json": FOLDER_OUT + "/assets/settings.global"
@@ -114,21 +99,6 @@ var globalFiles = {
 // src/handler.ts
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-
-// src/utils/request.ts
-async function request(url, opts = {}) {
-  const response = await fetch(url, {
-    method: opts.method ?? "GET"
-  });
-  return await response.text();
-}
-
-// src/utils/generics.ts
-async function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-// src/handler.ts
 var cwd = process.cwd();
 var logfile = null;
 function checkPackageJson(obj) {
@@ -181,7 +151,6 @@ async function createLogFile() {
 }
 async function loadLogFile() {
   const logFileContent = await readFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), "utf-8");
-  console.log(logFileContent);
   logfile = JSON.parse(logFileContent);
 }
 async function verification() {
@@ -217,28 +186,6 @@ async function resetProcess() {
   });
   logger("Processo reiniciado, digite npm start agora");
 }
-async function downloadDefaultFiles() {
-  let withError = false;
-  for (const file of arrayMapFilesRepo) {
-    try {
-      const path = FOLDER_OUT + "/" + file;
-      if (logfile?.[path]?.replaced) {
-        logger("Dl arquivo " + file + " j\xE1 foi baixado");
-        continue;
-      }
-      const fileContent = await request(GITHUB_RAW_URL + file);
-      await writeFile(join(cwd, FOLDER_OUT, file), fileContent);
-      setLogFile(path);
-      await delay(400);
-    } catch (err) {
-      error(String(err));
-      withError = true;
-    }
-  }
-  if (withError) {
-    logger("Arquivos main baixados, porem alguns deram erros. isso significa que sua conex\xE3o estava fraca ou deu algum problema");
-  }
-}
 async function mergeSettings() {
   const setg = Object.keys(globalFiles)[0];
   try {
@@ -246,7 +193,7 @@ async function mergeSettings() {
     const secondPath = join(cwd, globalFiles[setg]);
     console.log(secondPath);
     if (!existsSync(firstPath)) {
-      error("Arquivo settings.json da V9 n\xE3o existe, vai ficar no padr\xE3o da V10");
+      error("Arquivo settings.json da V9 n\xE3o existe, vai ficar no padr\xE3o da V10\n\n");
       return;
     }
     const fileContent = await readFile(firstPath, "utf-8");
@@ -256,10 +203,11 @@ NumeroDoDono: "` + (settings?.NumeroDoDono || "N\xC3O_DEFINIDO") + '"\nNickDono:
     await writeFile(secondPath, textYamlContent);
   } catch (e) {
     if (!DEV_MODE) {
-      error("erro ao mergir settings");
+      error("erro ao mergir settings\n\n");
       return;
     }
     console.error(e);
+    console.log("\n\n");
   }
 }
 
@@ -272,14 +220,12 @@ if (isReset) {
 await verification();
 (async function main() {
   try {
-    logger("Criando pasta de cache: " + CACHE_PATH + "\n\n");
+    logger("Criando pasta de cache: " + CACHE_PATH);
     await createCacheFolder();
-    logger("Criando arquivo de logs: " + CACHE_LOG_FILE + "\n\n");
+    logger("Criando arquivo de logs: " + CACHE_LOG_FILE);
     await createLogFile();
-    logger("Carregando arquivo de logs em tempo de execu\xE7\xE3o\n\n");
+    logger("Carregando arquivo de logs em tempo de execu\xE7\xE3o");
     await loadLogFile();
-    logger("Baixando arquivos main do repo\n\n");
-    await downloadDefaultFiles();
     logger("Setando settings.json\n\n");
     await mergeSettings();
     logger("Repassando arquivos padr\xF5es para a V10");

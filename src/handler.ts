@@ -11,11 +11,9 @@ import {
     DEV_MODE
 } from "./config-global";
 import { error, error_c, logger } from "./logger";
-import { MAP_FILES, arrayMapFilesRepo, globalFiles } from "./map-files";
+import { MAP_FILES, globalFiles } from "./map-files";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import request from "./utils/request";
-import { delay } from "./utils/generics";
 import type { SettingsHutao } from "./@types";
 
 interface ObjPkgJson {
@@ -126,8 +124,6 @@ export async function createLogFile(): Promise<void> {
 
 export async function loadLogFile(): Promise<void> {
     const logFileContent = await readFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), 'utf-8');
-    console.log(logFileContent);
-    
     logfile = JSON.parse(logFileContent) as LogFile;
 }
 
@@ -172,36 +168,6 @@ export async function resetProcess(): Promise<void> {
     logger('Processo reiniciado, digite npm start agora');
 }
 
-export async function downloadDefaultFiles(): Promise<void> {
-    let withError: boolean = false;
-
-    for (const file of arrayMapFilesRepo) {
-        try {
-            const path: string = FOLDER_OUT + '/' + file;
-            if (logfile?.[path]?.replaced) {
-                logger('Dl arquivo ' + file + ' já foi baixado');
-                continue;
-            }
-
-            const fileContent = await request(GITHUB_RAW_URL + file);
-            await writeFile(join(cwd, FOLDER_OUT, file), fileContent);
-
-            setLogFile(path);
-            await delay(400);
-        } catch (err) {
-            error(String(err));
-            withError = true;
-        }
-    }
-
-    if (withError) {
-        logger('Arquivos main baixados, porem alguns deram erros. isso significa que sua conexão estava fraca ou deu algum problema');
-    }
-}
-
-
-
-
 export async function mergeSettings(): Promise<void> {
     const setg: string = Object.keys(globalFiles)[0]!; // <-- existe
     try {
@@ -210,7 +176,7 @@ export async function mergeSettings(): Promise<void> {
         console.log(secondPath);
         
         if (!existsSync(firstPath)) {
-            error('Arquivo settings.json da V9 não existe, vai ficar no padrão da V10');
+            error('Arquivo settings.json da V9 não existe, vai ficar no padrão da V10\n\n');
             return;
         }
 
@@ -227,10 +193,11 @@ export async function mergeSettings(): Promise<void> {
         await writeFile(secondPath, textYamlContent);
     } catch (e) {
         if (!DEV_MODE) {
-            error('erro ao mergir settings');
+            error('erro ao mergir settings\n\n');
             return;
         }
 
         console.error(e);
+        console.log('\n\n');
     }
 }
