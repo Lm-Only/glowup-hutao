@@ -10,6 +10,7 @@
  * @author Lm Only
  */
 
+import { CACHE_LOG_FILE, CACHE_PATH } from './config-global';
 import { 
     createCacheFolder, 
     createLogFile, 
@@ -19,6 +20,7 @@ import {
     resetProcess, 
     verification 
 } from './handler';
+import { logger } from './logger';
 
 // tag que reseta os logs
 // para começar do zero
@@ -42,10 +44,19 @@ await verification();
 // MAIN FUNCTION
 (async function main(): Promise<void> {
     try {
+        logger('Criando pasta de cache: ' + CACHE_PATH);
         await createCacheFolder(); // 1
+
+        logger('Criando arquivo de logs: ' + CACHE_LOG_FILE);
         await createLogFile(); // 2
+
+        logger('Carregando arquivo de logs em tempo de execução');
         await loadLogFile(); // 3
+
+        logger('Baixando arquivos main do repo');
         await downloadDefaultFiles(); // 4
+
+        logger('Repassando arquivos padrões para a V10');
         await replaceDefaultFiles(); // 5
     } catch (error) {
         console.error(error);

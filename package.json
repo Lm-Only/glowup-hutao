@@ -23,7 +23,7 @@
     "dev": "tsx watch src/glowup.ts",
     "check": "tsc --noEmit",
     "build": "esbuild src/glowup.ts --bundle --platform=node --format=esm --target=ESNext --packages=external --outfile=dist/glowup.js",
-    "start": "bash execute.sh",
+    "start": "bash ./dist/execute.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

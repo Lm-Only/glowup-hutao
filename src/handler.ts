@@ -84,31 +84,34 @@ export async function replaceDefaultFiles(): Promise<void> {
             const path: string = join(cwd, inst.path);
             const to: string = join(cwd, inst.to);
 
+            logger('Path: ' + path + ' to: ' + to);
+
+            /** verifica se existe **/
             if (!existsSync(path)) {
                 error('File ' + inst.path + ' not exist');
                 continue;
             }
 
+            /** Verifica se já repassou */
             if (logfile?.[inst.path]?.replaced) {
                 logger('Arquivo ja foi registrado, pulando pro proximo');
                 continue;
             }
 
+            /** carrega o conteudo */
             const fileContent = await readFile(path, 'utf-8');
+            /** Repassa conteudo */
             await writeFile(to, fileContent);
 
+            /** Salva log */
             setLogFile(inst.path);
             logger('File ' + inst.path + ' replaced to: ' + inst.to + ' with success');
         }
     } catch (error) {
         console.error(error);
-        
     }
 }
 
-/**
- * Cria o arquivo de log se não existir
- */
 export async function createLogFile(): Promise<void> {
     if (existsSync(CACHE_LOG_FILE)) return; // <-- omg k
 
@@ -119,10 +122,6 @@ export async function createLogFile(): Promise<void> {
     }
 }
 
-/**
- * Carregamento de log por demanda
- * - Carrega os logs em tempo de execução
- */
 export async function loadLogFile(): Promise<void> {
     const logFileContent = await readFile(join(cwd, CACHE_PATH_NAME, LOG_FILE), 'utf-8');
     console.log(logFileContent);
@@ -130,14 +129,19 @@ export async function loadLogFile(): Promise<void> {
     logfile = JSON.parse(logFileContent) as LogFile;
 }
 
-/**
- * Verifica as informações do diretório
- */
 export async function verification(): Promise<void> {
     const packageJson: string = 'package.json';
+    const path: string = join(cwd, packageJson);
+
+    if (!existsSync(path)) {
+        if (!CHECK_HUTAO_INFO) return;
+
+        error('Cade o package.json fi, elouqueceu foi?');
+        error_c('E tem que estar no arquivo da Hutao V9 😡😡😡')
+    }
 
     try {
-        const content = await readFile(join(cwd, packageJson), "utf-8");
+        const content = await readFile(path, "utf-8");
         const json = JSON.parse(content) as ObjPkgJson;
         const isHutao: boolean = checkPackageJson(json);
 
@@ -145,13 +149,14 @@ export async function verification(): Promise<void> {
             error_c("O arquivo não é o da Hutao, para sua segurança, o codigo será finalizado");
         }
     } catch (error) {
-        error_c("why?");
+        if (CHECK_HUTAO_INFO) {
+            error_c("why?");
+        }
+
+        console.error(error);
     }
 }
 
-/**
- * Apaga tudo que foi criado
- */
 export async function resetProcess(): Promise<void> {
     await rm(join(cwd, CACHE_PATH_NAME), {
         recursive: true,
@@ -165,9 +170,6 @@ export async function resetProcess(): Promise<void> {
     logger('Processo reiniciado, digite npm start agora');
 }
 
-/**
- * Baixa arquivos main
- */
 export async function downloadDefaultFiles(): Promise<void> {
     let withError: boolean = false;
 
