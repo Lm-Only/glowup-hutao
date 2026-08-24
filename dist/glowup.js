@@ -5,7 +5,7 @@ var LOG_FILE = "logfile.json";
 var FOLDER_OUT = "HutaoBot";
 var CACHE_LOG_FILE = CACHE_PATH + "/" + LOG_FILE;
 var LOG_FILE_TYPE = "{}";
-var CHECK_HUTAO_INFO = false;
+var CHECK_HUTAO_INFO = true;
 var DEV_MODE = process.argv.includes("--dev");
 
 // src/handler.ts

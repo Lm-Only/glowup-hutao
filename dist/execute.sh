@@ -16,7 +16,8 @@ if [ ! -d 'HutaoBot' ]; then
     git clone https://github.com/Lm-Only/HutaoBot.git
 fi
 
+cp assets/groups/activation/* HutaoBot/assets/groups/activation
 node glowup.js
 
-mv HutaoBot Hutao_V10_AQUU_VOCE_PODE_ZIPAR_OU_MOVER_OS_ARQUIVOS
+mv HutaoBot HutaoBot_V10_AQUI_VOCE_PODE_ZIPAR_OU_MOVER_OS_ARQUIVOS
 rm -rf glowup.js
