@@ -2,7 +2,7 @@
 
 # VARIÁVEIS 
 GITHUB_REPO_URL="https://raw.githubusercontent.com/Lm-Only/HutaoBot/refs/heads/main"
-OUT_FOLDER="./out"
+OUT_FOLDER="./HutaoBotV10"
 ASSETS_MEDIA="assets/media"
 ASSETS_USERS="assets/users"
 ASSETS_GLOBAL="assets/global"
