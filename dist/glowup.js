@@ -2,7 +2,7 @@
 var CACHE_PATH_NAME = ".cache-hutao";
 var CACHE_PATH = "./" + CACHE_PATH_NAME;
 var LOG_FILE = "logfile.json";
-var FOLDER_OUT = "out";
+var FOLDER_OUT = "HutaoBotV10";
 var CACHE_LOG_FILE = CACHE_PATH + "/" + LOG_FILE;
 var LOG_FILE_TYPE = "{}";
 var CHECK_HUTAO_INFO = false;
