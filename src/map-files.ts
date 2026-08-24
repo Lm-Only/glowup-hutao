@@ -94,3 +94,9 @@ export const arrayMapFilesRepo: string[] = [
     'SECURITY.md',
     'LICENSE'
 ];
+
+
+export const globalFiles: Record<string, string> = {
+    '/dono/settings/settings.json': FOLDER_OUT + '/assets/settings/settings.yaml',
+    '/donos/settings/necessary.json': FOLDER_OUT + '/assets/settings.global'
+}

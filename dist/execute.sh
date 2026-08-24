@@ -6,6 +6,7 @@ OUT_FOLDER="./HutaoBotV10"
 ASSETS_MEDIA="assets/media"
 ASSETS_USERS="assets/users"
 ASSETS_GLOBAL="assets/global"
+ASSETS_SETTINGS="assets/settings"
 
 rm -rf ./*.bak
 
@@ -91,6 +92,14 @@ cd ../../../../
 # ASSETS->SETTINGS
 mkdir -p $OUT_FOLDER/assets/settings
 
+# Acess - Download files in assets-settings
+cd $OUT_FOLDER/assets/settings
+    curl -fsL $GITHUB_REPO_URL/$ASSETS_SETTINGS/global.json -o global.json
+    curl -fsL $GITHUB_REPO_URL/$ASSETS_SETTINGS/system.json -o system.json
+    curl -fsl $GITHUB_REPO_URL/$ASSETS_SETTINGS/settings.yaml -o settings.yaml
+
+# Back to out folder from assets-settings
+cd ../../../
 
 # ASSETS->TABELA
 mkdir -p $OUT_FOLDER/assets/tabela

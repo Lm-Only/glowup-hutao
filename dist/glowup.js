@@ -6,6 +6,7 @@ var FOLDER_OUT = "HutaoBotV10";
 var CACHE_LOG_FILE = CACHE_PATH + "/" + LOG_FILE;
 var LOG_FILE_TYPE = "{}";
 var CHECK_HUTAO_INFO = false;
+var DEV_MODE = process.argv.includes("dev");
 var GITHUB_RAW_URL = "https://raw.githubusercontent.com/Lm-Only/HutaoBot/refs/heads/main/";
 
 // src/handler.ts
@@ -105,6 +106,10 @@ var arrayMapFilesRepo = [
   "SECURITY.md",
   "LICENSE"
 ];
+var globalFiles = {
+  "/dono/settings/settings.json": FOLDER_OUT + "/assets/settings/settings.yaml",
+  "/donos/settings/necessary.json": FOLDER_OUT + "/assets/settings.global"
+};
 
 // src/handler.ts
 import { existsSync } from "node:fs";
@@ -234,6 +239,29 @@ async function downloadDefaultFiles() {
     logger("Arquivos main baixados, porem alguns deram erros. isso significa que sua conex\xE3o estava fraca ou deu algum problema");
   }
 }
+async function mergeSettings() {
+  const setg = Object.keys(globalFiles)[0];
+  try {
+    const firstPath = join(cwd, setg);
+    const secondPath = join(cwd, globalFiles[setg]);
+    console.log(secondPath);
+    if (!existsSync(firstPath)) {
+      error("Arquivo settings.json da V9 n\xE3o existe, vai ficar no padr\xE3o da V10");
+      return;
+    }
+    const fileContent = await readFile(firstPath, "utf-8");
+    const settings = JSON.parse(fileContent);
+    const textYamlContent = "prefixo: '" + (settings?.prefixo || "!") + `'
+NumeroDoDono: "` + (settings?.NumeroDoDono || "N\xC3O_DEFINIDO") + '"\nNickDono: ' + (settings?.NickDono || "Lm Only") + "\nNomeDoBot: " + (settings?.NomeDoBot || "\u{1D46F}\u{1D496}\u{1D495}\u{1D482}\u{1D490}\u{1D469}\u{1D490}\u{1D495}-\u{1D474}\u{1D46B} \u273F") + "\nChannel: 120363405418518840@newsletter\ntoken: " + (settings?.token || "TOKEN_YUTA");
+    await writeFile(secondPath, textYamlContent);
+  } catch (e) {
+    if (!DEV_MODE) {
+      error("erro ao mergir settings");
+      return;
+    }
+    console.error(e);
+  }
+}
 
 // src/glowup.ts
 var isReset = process.argv.includes("reset");
@@ -244,14 +272,16 @@ if (isReset) {
 await verification();
 (async function main() {
   try {
-    logger("Criando pasta de cache: " + CACHE_PATH);
+    logger("Criando pasta de cache: " + CACHE_PATH + "\n\n");
     await createCacheFolder();
-    logger("Criando arquivo de logs: " + CACHE_LOG_FILE);
+    logger("Criando arquivo de logs: " + CACHE_LOG_FILE + "\n\n");
     await createLogFile();
-    logger("Carregando arquivo de logs em tempo de execu\xE7\xE3o");
+    logger("Carregando arquivo de logs em tempo de execu\xE7\xE3o\n\n");
     await loadLogFile();
-    logger("Baixando arquivos main do repo");
+    logger("Baixando arquivos main do repo\n\n");
     await downloadDefaultFiles();
+    logger("Setando settings.json\n\n");
+    await mergeSettings();
     logger("Repassando arquivos padr\xF5es para a V10");
     await replaceDefaultFiles();
   } catch (error2) {

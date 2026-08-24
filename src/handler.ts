@@ -7,14 +7,16 @@ import {
     CACHE_PATH_NAME, 
     LOG_FILE, 
     FOLDER_OUT,
-    GITHUB_RAW_URL
+    GITHUB_RAW_URL,
+    DEV_MODE
 } from "./config-global";
 import { error, error_c, logger } from "./logger";
-import { MAP_FILES, arrayMapFilesRepo } from "./map-files";
+import { MAP_FILES, arrayMapFilesRepo, globalFiles } from "./map-files";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import request from "./utils/request";
 import { delay } from "./utils/generics";
+import type { SettingsHutao } from "./@types";
 
 interface ObjPkgJson {
     updates?: number;
@@ -194,5 +196,41 @@ export async function downloadDefaultFiles(): Promise<void> {
 
     if (withError) {
         logger('Arquivos main baixados, porem alguns deram erros. isso significa que sua conexão estava fraca ou deu algum problema');
+    }
+}
+
+
+
+
+export async function mergeSettings(): Promise<void> {
+    const setg: string = Object.keys(globalFiles)[0]!; // <-- existe
+    try {
+        const firstPath: string = join(cwd, setg);
+        const secondPath: string = join(cwd, globalFiles[setg]!); // <-- existe
+        console.log(secondPath);
+        
+        if (!existsSync(firstPath)) {
+            error('Arquivo settings.json da V9 não existe, vai ficar no padrão da V10');
+            return;
+        }
+
+        const fileContent: string = await readFile(firstPath, 'utf-8');
+        const settings: SettingsHutao = JSON.parse(fileContent);
+        
+        const textYamlContent: string = "prefixo: '" + (settings?.prefixo || '!') + "'\n" +
+            'NumeroDoDono: "' + (settings?.NumeroDoDono || 'NÃO_DEFINIDO') + '"\n' +
+            "NickDono: " + (settings?.NickDono || 'Lm Only') + "\n" +
+            "NomeDoBot: " + (settings?.NomeDoBot || '𝑯𝒖𝒕𝒂𝒐𝑩𝒐𝒕-𝑴𝑫 ✿') + "\n" +
+            "Channel: 120363405418518840@newsletter\n" +
+            "token: " + (settings?.token || 'TOKEN_YUTA');
+
+        await writeFile(secondPath, textYamlContent);
+    } catch (e) {
+        if (!DEV_MODE) {
+            error('erro ao mergir settings');
+            return;
+        }
+
+        console.error(e);
     }
 }

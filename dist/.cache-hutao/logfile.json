@@ -1,38 +1,38 @@
 {
-  "out/index.js": {
+  "HutaoBotV10/index.js": {
     "replaced": true
   },
-  "out/package.json": {
+  "HutaoBotV10/package.json": {
     "replaced": true
   },
-  "out/package-lock.json": {
+  "HutaoBotV10/package-lock.json": {
     "replaced": true
   },
-  "out/start.sh": {
+  "HutaoBotV10/start.sh": {
     "replaced": true
   },
-  "out/qrcode-reset.sh": {
+  "HutaoBotV10/qrcode-reset.sh": {
     "replaced": true
   },
-  "out/AGENTS.md": {
+  "HutaoBotV10/AGENTS.md": {
     "replaced": true
   },
-  "out/CONTRIBUTING.md": {
+  "HutaoBotV10/CONTRIBUTING.md": {
     "replaced": true
   },
-  "out/CLAUDE.md": {
+  "HutaoBotV10/CLAUDE.md": {
     "replaced": true
   },
-  "out/CODE_OF_CONDUCT.md": {
+  "HutaoBotV10/CODE_OF_CONDUCT.md": {
     "replaced": true
   },
-  "out/README.md": {
+  "HutaoBotV10/README.md": {
     "replaced": true
   },
-  "out/SECURITY.md": {
+  "HutaoBotV10/SECURITY.md": {
     "replaced": true
   },
-  "out/LICENSE": {
+  "HutaoBotV10/LICENSE": {
     "replaced": true
   }
 }

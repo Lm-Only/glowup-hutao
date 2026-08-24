@@ -16,6 +16,7 @@ import {
     createLogFile, 
     downloadDefaultFiles, 
     loadLogFile, 
+    mergeSettings, 
     replaceDefaultFiles, 
     resetProcess, 
     verification 
@@ -44,20 +45,23 @@ await verification();
 // MAIN FUNCTION
 (async function main(): Promise<void> {
     try {
-        logger('Criando pasta de cache: ' + CACHE_PATH);
+        logger('Criando pasta de cache: ' + CACHE_PATH + '\n\n');
         await createCacheFolder(); // 1
 
-        logger('Criando arquivo de logs: ' + CACHE_LOG_FILE);
+        logger('Criando arquivo de logs: ' + CACHE_LOG_FILE + '\n\n');
         await createLogFile(); // 2
 
-        logger('Carregando arquivo de logs em tempo de execução');
+        logger('Carregando arquivo de logs em tempo de execução\n\n');
         await loadLogFile(); // 3
 
-        logger('Baixando arquivos main do repo');
+        logger('Baixando arquivos main do repo\n\n');
         await downloadDefaultFiles(); // 4
 
+        logger('Setando settings.json\n\n')
+        await mergeSettings(); // 5
+
         logger('Repassando arquivos padrões para a V10');
-        await replaceDefaultFiles(); // 5
+        await replaceDefaultFiles(); // 
     } catch (error) {
         console.error(error);
     }
