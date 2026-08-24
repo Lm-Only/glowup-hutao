@@ -1,6 +1,3 @@
-// src/handler.ts
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
-
 // src/config-global.ts
 var CACHE_PATH_NAME = ".cache-hutao";
 var CACHE_PATH = "./" + CACHE_PATH_NAME;
@@ -10,6 +7,9 @@ var CACHE_LOG_FILE = CACHE_PATH + "/" + LOG_FILE;
 var LOG_FILE_TYPE = "{}";
 var CHECK_HUTAO_INFO = false;
 var GITHUB_RAW_URL = "https://raw.githubusercontent.com/Lm-Only/HutaoBot/refs/heads/main/";
+
+// src/handler.ts
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 
 // src/logger.ts
 import { exit } from "node:process";
@@ -27,13 +27,83 @@ function logger(text) {
 // src/map-files.ts
 var MAP_FILES = [
   {
-    path: "/test/example1",
-    to: "/test/example2"
+    path: "/assets/groups/TMGP.json",
+    to: "/out/assets/groups/TMGP.json"
   },
   {
-    path: "a",
-    to: "b"
+    path: "/assets/groups/aluguel.json",
+    to: "/out/assets/groups/aluguel.json"
+  },
+  {
+    path: "/assets/groups/anotar.json",
+    to: "/out/assets/groups/anotar.json"
+  },
+  {
+    path: "/assets/groups/avisos.json",
+    to: "/out/assets/groups/avisos.json"
+  },
+  {
+    path: "/assets/groups/countmsg.json",
+    to: "/out/assets/groups/countmsg.json"
+  },
+  {
+    path: "/assets/groups/muted.json",
+    to: "/out/assets/groups/muted.json"
+  },
+  {
+    path: "/assets/groups/openGroup.json",
+    to: "/out/assets/groups/openGroup.json"
+  },
+  {
+    path: "/assets/media/audios/bomdia.mp3",
+    to: "/out/assets/media/audios/bomdia.mp3"
+  },
+  {
+    path: "/assets/media/audios/index.js",
+    to: "/out/assets/media/audios/index.js"
+  },
+  {
+    path: "/assets/media/logos/logo.json",
+    to: "/out/assets/media/images/logo.json"
+  },
+  {
+    path: "/assets/users/banned.json",
+    to: "/out/assets/users/banned.json"
+  },
+  {
+    path: "/assets/users/family.json",
+    to: "/out/assets/users/family.json"
+  },
+  {
+    path: "/assets/users/jogodavelha.json",
+    to: "/out/assets/users/jogodavelha.json"
+  },
+  {
+    path: "/assets/users/premium.json",
+    to: "/out/assets/users/premium.json"
+  },
+  {
+    path: "/assets/users/rgfigus.json",
+    to: "/out/assets/users/rgfigus.json"
+  },
+  {
+    path: "/assets/users/take.json",
+    to: "/out/assets/users/take.json"
   }
+];
+var arrayMapFilesRepo = [
+  "index.js",
+  "package.json",
+  "package-lock.json",
+  "start.sh",
+  "qrcode-reset.sh",
+  "AGENTS.md",
+  "CONTRIBUTING.md",
+  "CLAUDE.md",
+  "CODE_OF_CONDUCT.md",
+  "README.md",
+  "SECURITY.md",
+  "LICENSE"
 ];
 
 // src/handler.ts
@@ -78,6 +148,7 @@ async function replaceDefaultFiles() {
     for (const inst of MAP_FILES) {
       const path = join(cwd, inst.path);
       const to = join(cwd, inst.to);
+      logger("Path: " + path + " to: " + to);
       if (!existsSync(path)) {
         error("File " + inst.path + " not exist");
         continue;
@@ -110,15 +181,24 @@ async function loadLogFile() {
 }
 async function verification() {
   const packageJson = "package.json";
+  const path = join(cwd, packageJson);
+  if (!existsSync(path)) {
+    if (!CHECK_HUTAO_INFO) return;
+    error("Cade o package.json fi, elouqueceu foi?");
+    error_c("E tem que estar no arquivo da Hutao V9 \u{1F621}\u{1F621}\u{1F621}");
+  }
   try {
-    const content = await readFile(join(cwd, packageJson), "utf-8");
+    const content = await readFile(path, "utf-8");
     const json = JSON.parse(content);
     const isHutao = checkPackageJson(json);
     if (!isHutao && CHECK_HUTAO_INFO) {
       error_c("O arquivo n\xE3o \xE9 o da Hutao, para sua seguran\xE7a, o codigo ser\xE1 finalizado");
     }
   } catch (error2) {
-    error_c("why?");
+    if (CHECK_HUTAO_INFO) {
+      error_c("why?");
+    }
+    console.error(error2);
   }
 }
 async function resetProcess() {
@@ -132,20 +212,6 @@ async function resetProcess() {
   });
   logger("Processo reiniciado, digite npm start agora");
 }
-var arrayMapFilesRepo = [
-  "index.js",
-  "package.json",
-  "package-lock.json",
-  "start.sh",
-  "qrcode-reset.sh",
-  "AGENTS.md",
-  "CONTRIBUTING.md",
-  "CLAUDE.md",
-  "CODE_OF_CONDUCT.md",
-  "README.md",
-  "SECURITY.md",
-  "LICENSE"
-];
 async function downloadDefaultFiles() {
   let withError = false;
   for (const file of arrayMapFilesRepo) {
@@ -158,7 +224,7 @@ async function downloadDefaultFiles() {
       const fileContent = await request(GITHUB_RAW_URL + file);
       await writeFile(join(cwd, FOLDER_OUT, file), fileContent);
       setLogFile(path);
-      await delay(200);
+      await delay(400);
     } catch (err) {
       error(String(err));
       withError = true;
@@ -178,10 +244,15 @@ if (isReset) {
 await verification();
 (async function main() {
   try {
+    logger("Criando pasta de cache: " + CACHE_PATH);
     await createCacheFolder();
+    logger("Criando arquivo de logs: " + CACHE_LOG_FILE);
     await createLogFile();
+    logger("Carregando arquivo de logs em tempo de execu\xE7\xE3o");
     await loadLogFile();
+    logger("Baixando arquivos main do repo");
     await downloadDefaultFiles();
+    logger("Repassando arquivos padr\xF5es para a V10");
     await replaceDefaultFiles();
   } catch (error2) {
     console.error(error2);

@@ -1,0 +1,38 @@
+{
+  "out/index.js": {
+    "replaced": true
+  },
+  "out/package.json": {
+    "replaced": true
+  },
+  "out/package-lock.json": {
+    "replaced": true
+  },
+  "out/start.sh": {
+    "replaced": true
+  },
+  "out/qrcode-reset.sh": {
+    "replaced": true
+  },
+  "out/AGENTS.md": {
+    "replaced": true
+  },
+  "out/CONTRIBUTING.md": {
+    "replaced": true
+  },
+  "out/CLAUDE.md": {
+    "replaced": true
+  },
+  "out/CODE_OF_CONDUCT.md": {
+    "replaced": true
+  },
+  "out/README.md": {
+    "replaced": true
+  },
+  "out/SECURITY.md": {
+    "replaced": true
+  },
+  "out/LICENSE": {
+    "replaced": true
+  }
+}
