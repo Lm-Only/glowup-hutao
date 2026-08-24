@@ -17,4 +17,6 @@ if [ ! -d 'HutaoBot' ]; then
 fi
 
 node glowup.js
-# zip -r HutaoBot.zip HutaoBot
+
+mv HutaoBot Hutao_V10_AQUU_VOCE_PODE_ZIPAR_OU_MOVER_OS_ARQUIVOS
+rm -rf glowup.js
