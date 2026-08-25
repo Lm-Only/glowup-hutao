@@ -14,5 +14,5 @@ cd /sdcard/HutaoBot-MD
 Segundo comando
 
 ````bash
-curl https://raw.githubusercontent.com/Lm-Only/glowup-hutao/refs/heads/main/dist/execute.sh | bash
+curl https://raw.githubusercontent.com/Lm-Only/glowup-hutao/refs/heads/main/execute.sh | bash
 ````
