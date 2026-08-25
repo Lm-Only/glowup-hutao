@@ -1,0 +1,59 @@
+{
+  "name": "hutaobot-md",
+  "version": "9.5.5",
+  "description": "HutaoBot-MD, desenvolvida para oferecer melhor conexão, segurança e desempenho. Qualquer duvida, me chame no Whatsapp: +559284828701",
+  "main": "main.js",
+  "scripts": {
+    "start": "ulimit -c 0 && bash start.sh",
+    "test": "node main.js",
+    "clean": "rm -rf ./assets/qr-code && echo \"Pasta do qr-code deletada. Execute 'npm start' para iniciar\"",
+    "help": "node help.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lm-Only/HutaoBot-MD.git"
+  },
+  "keywords": [
+    "nodejs",
+    "baileys",
+    "bot"
+  ],
+  "author": "Lm Only",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lm-Only/HutaoBot-MD/issues"
+  },
+  "homepage": "https://github.com/Lm-Only/HutaoBot-MD#readme",
+  "dependencies": {
+    "@google/genai": "^1.37.0",
+    "@google/generative-ai": "^0.24.1",
+    "@lmonly/scget": "^1.0.4",
+    "@vitalets/google-translate-api": "^9.2.1",
+    "@whiskeysockets/baileys": "^6.7.23",
+    "acrcloud": "^1.4.0",
+    "assemblyai": "^4.36.4",
+    "audio-decode": "^2.2.3",
+    "cfonts": "^3.3.0",
+    "chalk": "^4.0.0",
+    "cheerio": "^1.2.0",
+    "colors": "^1.4.0",
+    "escape-string-regexp": "^5.0.0",
+    "fake-useragent": "^1.0.1",
+    "fast-yt-search": "1.0.0",
+    "file-type": "^22.0.1",
+    "fluent-ffmpeg": "^2.1.3",
+    "jsdom": "^27.4.0",
+    "linkifyjs": "^4.3.3",
+    "moment-timezone": "^0.6.3",
+    "multistream": "^4.1.0",
+    "node-fetch": "^2.7.0",
+    "node-webpmux": "^3.2.1",
+    "performance-now": "^2.1.0",
+    "qrcode-terminal": "^0.12.0",
+    "qs": "^6.15.2",
+    "sharp": "^0.35.3",
+    "zod": "^4.4.3",
+    "zod-to-json-schema": "^3.25.2"
+  },
+  "updates": 193
+}

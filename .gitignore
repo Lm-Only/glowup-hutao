@@ -2,3 +2,11 @@ node_modules
 package-lock.json
 .cache
 
+./dist/HutaoBot
+./dist/assets
+./dist/.cache-hutao
+./dist/src
+./dist/dono
+./dist/node_modules
+
+./dist/HutaoBot_V10_AQUI_VOCE_PODE_ZIPAR_OU_MOVER_OS_ARQUIVOS

@@ -98,5 +98,5 @@ export const arrayMapFilesRepo: string[] = [
 
 export const globalFiles: Record<string, string> = {
     '/dono/settings/settings.json': FOLDER_OUT + '/assets/settings/settings.yaml',
-    '/donos/settings/necessary.json': FOLDER_OUT + '/assets/settings.global'
+    '/dono/settings/necessary.json': FOLDER_OUT + '/assets/settings/global.json'
 }

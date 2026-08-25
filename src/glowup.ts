@@ -15,6 +15,7 @@ import {
     createCacheFolder, 
     createLogFile, 
     loadLogFile, 
+    mergeGlobalParams, 
     mergeSettings, 
     replaceDefaultFiles, 
     resetProcess, 
@@ -55,6 +56,9 @@ await verification();
 
         logger('Setando settings.json\n\n')
         await mergeSettings(); // 5
+
+        logger('Setando sua configs\n\n');
+        mergeGlobalParams();
 
         logger('Repassando arquivos padrões para a V10');
         await replaceDefaultFiles(); // 

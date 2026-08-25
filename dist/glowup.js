@@ -93,7 +93,7 @@ var MAP_FILES = [
 ];
 var globalFiles = {
   "/dono/settings/settings.json": FOLDER_OUT + "/assets/settings/settings.yaml",
-  "/donos/settings/necessary.json": FOLDER_OUT + "/assets/settings.global"
+  "/dono/settings/necessary.json": FOLDER_OUT + "/assets/settings/global.json"
 };
 
 // src/handler.ts
@@ -210,6 +210,44 @@ NumeroDoDono: "` + (settings?.NumeroDoDono || "N\xC3O_DEFINIDO") + '"\nNickDono:
     console.log("\n\n");
   }
 }
+async function mergeGlobalParams() {
+  const glob = Object.keys(globalFiles)[1];
+  try {
+    const firstPath = join(cwd, glob);
+    const secondPath = join(cwd, globalFiles[glob]);
+    if (!existsSync(firstPath)) {
+      error("Arquivo necessary.json da V9 n\xE3o existe, vai ficar no padr\xE3o da V10\n\n");
+      return;
+    }
+    const fileContent = await readFile(firstPath, "utf-8");
+    const json = JSON.parse(fileContent);
+    const finalContent = await readFile(secondPath, "utf-8");
+    const finalJson = JSON.parse(finalContent);
+    const keys = Object.keys(json);
+    const keysLength = keys.length;
+    for (let i = 0; i < keysLength; i++) {
+      const key = keys[i];
+      if (Object.prototype.hasOwnProperty.call(finalJson, key)) {
+        const finalVal = finalJson[key];
+        const jsonVal = json[key];
+        if (typeof finalVal === "object" && finalVal !== null && typeof jsonVal === "object" && jsonVal !== null) {
+          if (Array.isArray(finalVal) && Array.isArray(jsonVal)) {
+            finalJson[key] = Array.from(/* @__PURE__ */ new Set([...finalVal, ...jsonVal]));
+          } else if (!Array.isArray(finalVal) && !Array.isArray(jsonVal)) {
+            finalJson[key] = { ...finalVal, ...jsonVal };
+          } else {
+            finalJson[key] = jsonVal;
+          }
+        } else {
+          finalJson[key] = jsonVal;
+        }
+      }
+    }
+    await writeFile(secondPath, JSON.stringify(finalJson, null, 4), "utf-8");
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 // src/glowup.ts
 var isReset = process.argv.includes("reset");
@@ -228,6 +266,8 @@ await verification();
     await loadLogFile();
     logger("Setando settings.json\n\n");
     await mergeSettings();
+    logger("Setando sua configs\n\n");
+    mergeGlobalParams();
     logger("Repassando arquivos padr\xF5es para a V10");
     await replaceDefaultFiles();
   } catch (error2) {

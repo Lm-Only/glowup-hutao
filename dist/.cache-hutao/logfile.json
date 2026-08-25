@@ -1,0 +1,50 @@
+{
+  "/assets/groups/TMGP.json": {
+    "replaced": true
+  },
+  "/assets/groups/aluguel.json": {
+    "replaced": true
+  },
+  "/assets/groups/anotar.json": {
+    "replaced": true
+  },
+  "/assets/groups/avisos.json": {
+    "replaced": true
+  },
+  "/assets/groups/countmsg.json": {
+    "replaced": true
+  },
+  "/assets/groups/muted.json": {
+    "replaced": true
+  },
+  "/assets/groups/openGroup.json": {
+    "replaced": true
+  },
+  "/assets/media/audios/bomdia.mp3": {
+    "replaced": true
+  },
+  "/assets/media/audios/index.js": {
+    "replaced": true
+  },
+  "/assets/media/logos/logo.json": {
+    "replaced": true
+  },
+  "/assets/users/banned.json": {
+    "replaced": true
+  },
+  "/assets/users/family.json": {
+    "replaced": true
+  },
+  "/assets/users/jogodavelha.json": {
+    "replaced": true
+  },
+  "/assets/users/premium.json": {
+    "replaced": true
+  },
+  "/assets/users/rgfigus.json": {
+    "replaced": true
+  },
+  "/assets/users/take.json": {
+    "replaced": true
+  }
+}

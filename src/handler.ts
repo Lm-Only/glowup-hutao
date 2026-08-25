@@ -201,3 +201,51 @@ export async function mergeSettings(): Promise<void> {
         console.log('\n\n');
     }
 }
+
+export async function mergeGlobalParams(): Promise<void> {
+    const glob: string = Object.keys(globalFiles)[1]!;
+    try {
+        const firstPath: string = join(cwd, glob);
+        const secondPath: string = join(cwd, globalFiles[glob]!);
+
+        if (!existsSync(firstPath)) {
+            error('Arquivo necessary.json da V9 não existe, vai ficar no padrão da V10\n\n');
+            return;
+        }
+
+        const fileContent: string = await readFile(firstPath, 'utf-8');
+        const json = JSON.parse(fileContent);
+
+        const finalContent: string = await readFile(secondPath, 'utf-8');
+        const finalJson = JSON.parse(finalContent);
+
+        const keys = Object.keys(json);
+        const keysLength = keys.length;
+
+        for (let i = 0; i < keysLength; i++) {
+            const key = keys[i]!;
+
+            if (Object.prototype.hasOwnProperty.call(finalJson, key)) {
+                const finalVal = finalJson[key];
+                const jsonVal = json[key];
+
+                if (typeof finalVal === 'object' && finalVal !== null && typeof jsonVal === 'object' && jsonVal !== null) {
+                    if (Array.isArray(finalVal) && Array.isArray(jsonVal)) {
+                        finalJson[key] = Array.from(new Set([...finalVal, ...jsonVal]));
+                    } else if (!Array.isArray(finalVal) && !Array.isArray(jsonVal)) {
+                        finalJson[key] = { ...finalVal, ...jsonVal };
+                    } else {
+                        finalJson[key] = jsonVal;
+                    }
+                } else {
+                    finalJson[key] = jsonVal;
+                }
+            }
+        }
+
+        await writeFile(secondPath, JSON.stringify(finalJson, null, 4), 'utf-8');
+
+    } catch (err) {
+        console.log(err);
+    }
+}
