@@ -1,5 +1,5 @@
 # glowup-hutao
-Solução para a transferência de arquivos da Hutao V9 pra V10
+Projeto desenvolvido em Typescript para a transferência de arquivos da Hutao V9 pra V10
 
 # Versão Base ✨️
 
