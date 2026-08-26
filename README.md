@@ -36,7 +36,7 @@ Segundo comando
 curl https://raw.githubusercontent.com/Lm-Only/glowup-hutao/refs/heads/main/execute.sh | bash
 ````
 
-ou baixe o arquivo se for em host. [Baixe Aqui](https://github.com/Lm-Only/glowup-hutao/refs/heads/main/execute.sh)
+ou baixe o arquivo se for em host. [Baixe Aqui](github.com/Lm-Only/glowup-hutao/blob/main/execute.sh)
 
 
 ## Você que usa hospedagem
