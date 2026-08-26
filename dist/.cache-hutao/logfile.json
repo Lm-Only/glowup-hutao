@@ -46,5 +46,14 @@
   },
   "/assets/users/take.json": {
     "replaced": true
+  },
+  "/src/json/casamento.json": {
+    "replaced": true
+  },
+  "/src/json/pedido.json": {
+    "replaced": true
+  },
+  "/src/json/ia.json": {
+    "replaced": true
   }
 }

@@ -58,7 +58,7 @@ await verification();
         await mergeSettings(); // 5
 
         logger('Setando sua configs\n\n');
-        mergeGlobalParams();
+        await mergeGlobalParams();
 
         logger('Repassando arquivos padrões para a V10');
         await replaceDefaultFiles(); // 

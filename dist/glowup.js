@@ -35,6 +35,18 @@ var MAP_FILES = [
     to: FOLDER_OUT + "/assets/groups/aluguel.json"
   },
   {
+    path: "/src/json/casamento.json",
+    to: FOLDER_OUT + "/assets/global/casamento.json"
+  },
+  {
+    path: "/src/json/pedido.json",
+    to: FOLDER_OUT + "/assets/global/pedido.json"
+  },
+  {
+    path: "/src/json/ia.json",
+    to: FOLDER_OUT + "/assets/global/ia.json"
+  },
+  {
     path: "/assets/groups/anotar.json",
     to: FOLDER_OUT + "/assets/groups/anotar.json"
   },
@@ -63,10 +75,6 @@ var MAP_FILES = [
     to: FOLDER_OUT + "/assets/media/audios/index.js"
   },
   {
-    path: "/assets/media/logos/logo.json",
-    to: FOLDER_OUT + "/assets/media/images/logo.json"
-  },
-  {
     path: "/assets/users/banned.json",
     to: FOLDER_OUT + "/assets/users/banned.json"
   },
@@ -80,7 +88,7 @@ var MAP_FILES = [
   },
   {
     path: "/assets/users/premium.json",
-    to: FOLDER_OUT + "/assets/users/premium.json"
+    to: FOLDER_OUT + "/assets/global/premium.json"
   },
   {
     path: "/assets/users/rgfigus.json",
@@ -267,7 +275,7 @@ await verification();
     logger("Setando settings.json\n\n");
     await mergeSettings();
     logger("Setando sua configs\n\n");
-    mergeGlobalParams();
+    await mergeGlobalParams();
     logger("Repassando arquivos padr\xF5es para a V10");
     await replaceDefaultFiles();
   } catch (error2) {

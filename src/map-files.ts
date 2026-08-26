@@ -19,6 +19,19 @@ export const MAP_FILES: Array<MapFiles> = [
         to: FOLDER_OUT + "/assets/groups/aluguel.json"
     },
     {
+        path: "/src/json/casamento.json",
+        to: FOLDER_OUT + "/assets/global/casamento.json"
+    },
+    {
+        path: "/src/json/pedido.json",
+        to: FOLDER_OUT + "/assets/global/pedido.json"
+    },
+    {
+        path: "/src/json/ia.json",
+        to: FOLDER_OUT + "/assets/global/ia.json"
+        
+    },
+    {
         path: "/assets/groups/anotar.json",
         to: FOLDER_OUT + "/assets/groups/anotar.json"
     },
@@ -47,10 +60,6 @@ export const MAP_FILES: Array<MapFiles> = [
         to: FOLDER_OUT + "/assets/media/audios/index.js"
     },
     {
-        path: "/assets/media/logos/logo.json",
-        to: FOLDER_OUT + "/assets/media/images/logo.json"
-    },
-    {
         path: "/assets/users/banned.json",
         to: FOLDER_OUT + "/assets/users/banned.json"
     },
@@ -64,7 +73,7 @@ export const MAP_FILES: Array<MapFiles> = [
     },
     {
         path: "/assets/users/premium.json",
-        to: FOLDER_OUT + "/assets/users/premium.json"
+        to: FOLDER_OUT + "/assets/global/premium.json"
     },
     {
         path: "/assets/users/rgfigus.json",
