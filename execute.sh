@@ -12,6 +12,11 @@ if [ "$1" = "reset" ]; then
     exit
 fi
 
+if [ ! -f 'package.json' ] || [ ! -d 'dono' ] || [ ! -d 'assets' ]; then
+    echo "[ ERROR ] - Você tem que estar em um arquivo da HutaoBot-MD V9"
+    exit 1
+fi
+    
 if [ ! -d 'HutaoBot' ]; then
     git clone https://github.com/Lm-Only/HutaoBot.git
 fi
