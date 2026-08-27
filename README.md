@@ -3,6 +3,9 @@ Projeto desenvolvido em Typescript para a transferência de arquivos da Hutao V9
 
 # Versão Base ✨️
 
+> [!CAUTION]
+> Você só deve executar isso se caso você usava a V9, nunca tenha usado a V10 e tenha pago uma key pra V10. Isso pode ser perigoso mover os dados de um bot pro outro sem estar preparado(a)
+
 <details>
   <summary>
     <b>Como funciona?</b>
@@ -43,3 +46,24 @@ ou baixe o arquivo se for em host. [Baixe Aqui](https://github.com/Lm-Only/glowu
 
 > [!IMPORTANT]
 > Se for em host, troque a inicialização **npm start** por **bash execute.sh** e em seguida reinicie seu servidor
+
+<details>
+  <summary>
+    <b>Duvidas?</b>
+  </summary>
+
+* Geralmente você baixa o arquivo **execute.sh**
+* Depois upa ele pra sua host
+* Logo em seguida vocês deve mudar a inicialização do bot temporariamente
+
+## Siga estes passos
+
+1. Na sua host procure por startup/inicialização
+2. Provavelmente vai estar **npm start**
+3. Troque isso por **bash execute.sh**
+4. Volte pro console
+5. dê start
+
+* Depois de tudo isso, volte para npm start
+
+</details>
