@@ -23,6 +23,22 @@ Projeto desenvolvido em Typescript para a transferência de arquivos da Hutao V9
 
 </details>
 
+<details>
+  <summary>
+    <b>Passo a passo...</b>
+  </summary>
+
+1. Se você usa termux, basta acessar a pasta do bot com o primeiro comando e depois executar o segundo comando
+> O mesmo vale pra uma VPS
+
+2. Mass, se você usa hospedagem, você deve baixar o arquivo executável
+3. Depois upar na hospedagem lá nos arquivos principais
+4. Trocar o startup por bash execute.sh
+5. iniciar o servidor
+6. pronto, o processo deve ser finalizado com sucesso e a pasta **HutaoBot** (V10) vai ser gerada com seus dados da V9
+
+</details>
+
 -----
 
 ## Testes abaixo
